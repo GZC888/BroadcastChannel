@@ -2,6 +2,10 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .site-title {
   view-transition-name: site-title;
   transition: 0.2s ease;
@@ -9,6 +13,16 @@
 
 .item {
   transition: 0.2s ease;
+}
+
+#aside-container {
+  position: sticky;
+  top: 0;
+}
+
+#aside-container .nav {
+  position: static;
+  top: unset;
 }
 
 .search-icon {
@@ -41,15 +55,16 @@
 
 .search-form {
   display: none;
-  background: rgba(255, 255, 255, 0.75);
+  background: var(--code-background-color);
+  color: var(--secondary-color);
   padding: 8px;
-  position: sticky;
-  top: 60px;
   border-radius: var(--box-border-radius);
 
   > input {
     border: 1px solid var(--background-color);
     border-radius: var(--box-border-radius);
+    background: var(--code-background-color);
+    color: var(--secondary-color);
     outline: none;
     font-size: 12px;
     line-height: 2.4;
@@ -60,15 +75,20 @@
 }
 
 .copyright-wrap {
-  position: sticky;
-  top: 120px;
   color: #666;
   line-height: 1.5;
   font-size: 14px;
   display: none;
+  padding: 8px;
 }
 
 @media screen and (min-width: 600px) {
+  #aside-container {
+    height: 100vh;
+    height: 100svh;
+    overflow-y: auto;
+  }
+
   .search-form {
     display: block;
   }
@@ -79,5 +99,59 @@
 
   .copyright-wrap {
     display: block;
+  }
+}
+
+#back-to-top {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--code-background-color);
+  color: var(--secondary-color);
+  width: 32px;
+  height: 32px;
+  border-radius: 100%;
+  border: none;
+  font-size: 24px;
+  text-decoration: none;
+  opacity: 0;
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
+  z-index: 1000;
+
+  &:hover {
+    transform: translateY(-3px);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  img {
+    filter: var(--icon-secondary-filter);
+  }
+}
+
+/* Use @scroll-timeline to control the display of the button */
+@supports (animation-timeline: view()) {
+  #back-to-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.5s linear both;
+    animation-timeline: view(block 0 100vh);
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      pointer-events: none;
+    }
+    to {
+      opacity: 0.9;
+      pointer-events: auto;
+    }
   }
 }

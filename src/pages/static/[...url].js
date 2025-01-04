@@ -4,9 +4,9 @@ const targetWhitelist = [
   'telegram.me',
   'telegram.dog',
   'cdn-telegram.org',
+  'telesco.pe',
+  'yandex.ru',
 ]
-
-export const prerender = false
 
 export async function GET({ request, params, url }) {
   try {
@@ -14,7 +14,8 @@ export async function GET({ request, params, url }) {
     if (!targetWhitelist.some(domain => target.hostname.endsWith(domain))) {
       return Response.redirect(target.toString(), 302)
     }
-    return fetch(target.toString(), request)
+    const response = await fetch(target.toString(), request)
+    return new Response(response.body, response)
   }
   catch (error) {
     return new Response(error.message, { status: 500 })
